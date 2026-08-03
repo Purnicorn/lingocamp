@@ -142,7 +142,17 @@ body::after {
   75%      { transform: rotate(0.5deg) skewX(2deg); }
 }
 
-/* ── Layer 2: Face features (subtle float, breathing feel) ── */
+/* ── Layer 2: Arms (subtle motion) ── */
+.layer-arms {
+  transform-origin: 70% 30%;
+  animation: armsFloat 5s ease-in-out infinite;
+}
+@keyframes armsFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-2px) rotate(0.5deg); }
+}
+
+/* ── Layer 3: Face features (subtle float, breathing feel) ── */
 .layer-face {
   transform-origin: 50% 50%;
   animation: faceFloat 5s ease-in-out infinite;
@@ -271,33 +281,36 @@ body::after {
 
   <div class="hero-visual">
     <div class="illustration-stage">
-      <!-- Layer stacking order: back to front -->
-      <!-- Base: full foreground (static background) -->
-      <img class="layer layer-base" src="layers/00_foreground_full.png" alt="">
+      <!-- ═══ SAM point-prompted layers ═══ -->
+      <!-- Base: full illustration (static) -->
+      <img class="layer layer-base" src="hero-illustration.webp" alt="">
 
-      <!-- Speaker: behind the girl, subtle vibration -->
-      <img class="layer layer-speaker" src="layers/07_speaker.png" alt="">
+      <!-- Back: speaker (vibrates behind girl) -->
+      <img class="layer layer-speaker" src="layers/sam_points/07_speaker.png" alt="">
 
-      <!-- Legs: bottom, swing -->
-      <img class="layer layer-legs" src="layers/06_legs.png" alt="">
+      <!-- Legs: swing at hip -->
+      <img class="layer layer-legs" src="layers/sam_points/06_legs.png" alt="">
 
-      <!-- Book: center, page flutter -->
-      <img class="layer layer-book" src="layers/05_book.png" alt="">
+      <!-- Arms: subtle motion -->
+      <img class="layer layer-arms" src="layers/sam_points/03_skin_arms.png" alt="">
 
-      <!-- Skin upper: face + arms, subtle float -->
-      <img class="layer layer-face" src="layers/02_skin_upper.png" alt="">
+      <!-- Book: page flutter -->
+      <img class="layer layer-book" src="layers/sam_points/05_book.png" alt="">
 
-      <!-- Face features: eyes/nose/mouth on top of skin -->
-      <img class="layer layer-face" src="layers/03_face_features.png" alt="">
+      <!-- Face skin: breathing float -->
+      <img class="layer layer-face" src="layers/sam_points/02_skin_face.png" alt="">
 
-      <!-- Headphones: on head, gentle bob -->
-      <img class="layer layer-headphones" src="layers/04_headphones.png" alt="">
+      <!-- Face features: eyes/nose/mouth, moves with face -->
+      <img class="layer layer-face" src="layers/sam_points/09_face_features.png" alt="">
 
-      <!-- Hair: top layer, breeze sway -->
-      <img class="layer layer-hair" src="layers/01_hair.png" alt="">
+      <!-- Headphones: gentle bob -->
+      <img class="layer layer-headphones" src="layers/sam_points/04_headphones.png" alt="">
 
-      <!-- Props: scattered items, gentle float -->
-      <img class="layer layer-props" src="layers/08_props.png" alt="">
+      <!-- Hair: breeze sway (topmost character layer) -->
+      <img class="layer layer-hair" src="layers/sam_points/01_hair.png" alt="">
+
+      <!-- Props: scattered items float -->
+      <img class="layer layer-props" src="layers/sam_points/08_props.png" alt="">
     </div>
   </div>
 </section>
