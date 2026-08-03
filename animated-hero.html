@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LingoCamp — Animated Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAE2B4;
+  --navy: #1A2533;
+  --navy-light: #2B3A55;
+  --brick: #CF6730;
+  --brick-hover: #B54E1A;
+  --orange: #D97B3F;
+  --halftone: #E8D5B0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--navy);
+  background: var(--cream);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Header ── */
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 5%; background: var(--cream);
+  border-bottom: 3px solid var(--navy);
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--navy); }
+.logo span { color: var(--brick); }
+.nav { display: flex; gap: 2rem; align-items: center; }
+.nav a { text-decoration: none; color: var(--navy); font-weight: 700; font-size: 1rem; transition: color 0.2s; }
+.nav a:hover { color: var(--brick); }
+
+.btn {
+  display: inline-block; padding: 0.75rem 1.8rem;
+  font-family: 'Fredoka One', cursive; font-size: 1rem;
+  border: 3px solid var(--navy); border-radius: 8px;
+  cursor: pointer; text-decoration: none;
+  box-shadow: 4px 4px 0 var(--navy); letter-spacing: 0.3px;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--brick); color: white; }
+.btn-primary:hover { background: var(--brick-hover); transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--navy); }
+.btn-outline { background: transparent; color: var(--navy); }
+
+/* ═══════ HERO ═══════ */
+.hero {
+  background: var(--cream);
+  display: flex; align-items: center;
+  min-height: 88vh; position: relative; overflow: hidden;
+}
+
+.hero::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 60%;
+  background: linear-gradient(to right, var(--cream) 0%, rgba(250,226,180,0.7) 10%, rgba(250,226,180,0) 25%);
+  z-index: 3; pointer-events: none;
+}
+
+.hero-content {
+  flex: 0 0 40%; padding: 3rem 5% 3rem 7%; z-index: 10; position: relative;
+}
+
+.hero-badge {
+  display: inline-block; background: var(--navy); color: white;
+  padding: 0.35rem 1.1rem; border-radius: 20px;
+  font-size: 0.85rem; font-weight: 800; margin-bottom: 1.2rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  border: 2px solid var(--navy); box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+}
+.hero-badge span { color: var(--orange); }
+
+.hero h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 1.12;
+  color: var(--navy); margin-bottom: 1.2rem;
+}
+.hero h1 em { font-style: normal; color: var(--brick); }
+
+.hero p { font-size: 1.2rem; color: var(--navy-light); margin-bottom: 2rem; max-width: 400px; font-weight: 600; }
+.hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+.hero-stats {
+  display: flex; gap: 2.2rem; margin-top: 2.5rem;
+  padding-top: 1.5rem; border-top: 2px dashed var(--halftone);
+}
+.hero-stats .stat { text-align: center; }
+.hero-stats .stat strong { display: block; font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--brick); }
+.hero-stats .stat small { font-weight: 700; color: var(--navy-light); font-size: 0.85rem; }
+
+/* ═══════ ANIMATED ILLUSTRATION ═══════ */
+.hero-visual {
+  flex: 1; position: relative; z-index: 1;
+  height: 88vh; min-height: 600px;
+  display: flex; align-items: center; justify-content: flex-end;
+}
+
+.illustration-stage {
+  position: relative;
+  width: 1100px; height: 880px;
+  /* Scale down to fit viewport */
+  transform-origin: right center;
+}
+
+/* All layers stacked with absolute positioning */
+.layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ── Layer 0: Base (background + static body) ── */
+/* We use the full foreground minus what's covered by animated layers */
+/* For now, use foreground_full as base, animated layers overlay on top */
+
+/* ── Layer 1: Hair (sway like gentle breeze) ── */
+.layer-hair {
+  transform-origin: 50% 20%; /* pivot near top of head */
+  animation: hairSway 4s ease-in-out infinite;
+}
+@keyframes hairSway {
+  0%, 100% { transform: rotate(0deg) skewX(0deg); }
+  25%      { transform: rotate(0.8deg) skewX(1.5deg); }
+  50%      { transform: rotate(-0.3deg) skewX(-1deg); }
+  75%      { transform: rotate(0.5deg) skewX(2deg); }
+}
+
+/* ── Layer 2: Face features (subtle float, breathing feel) ── */
+.layer-face {
+  transform-origin: 50% 50%;
+  animation: faceFloat 5s ease-in-out infinite;
+}
+@keyframes faceFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* ── Layer 3: Headphones (gentle bob) ── */
+.layer-headphones {
+  transform-origin: 50% 30%;
+  animation: hpBob 3.5s ease-in-out infinite;
+}
+@keyframes hpBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30%      { transform: translateY(-4px) rotate(0.5deg); }
+  60%      { transform: translateY(-2px) rotate(-0.3deg); }
+}
+
+/* ── Layer 4: Book pages (breeze flutter) ── */
+.layer-book {
+  transform-origin: 35% 90%; /* pivot near the bottom/spine */
+  animation: pageFlutter 3s ease-in-out infinite;
+}
+@keyframes pageFlutter {
+  0%, 100% { transform: scaleX(1) rotate(0deg); }
+  40%      { transform: scaleX(0.96) rotate(1.5deg); }
+  80%      { transform: scaleX(1.02) rotate(-1deg); }
+}
+
+/* ── Layer 5: Legs (idle swing, like lying on floor) ── */
+.layer-legs {
+  transform-origin: 50% 0%; /* pivot at hip/top of legs */
+  animation: legSwing 4.5s ease-in-out infinite;
+}
+@keyframes legSwing {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(2.5deg); }
+  75%      { transform: rotate(-2deg); }
+}
+
+/* ── Layer 6: Speaker/boombox (subtle vibration) ── */
+.layer-speaker {
+  transform-origin: 50% 80%;
+  animation: speakerVibe 2s ease-in-out infinite;
+}
+@keyframes speakerVibe {
+  0%, 100% { transform: translate(0, 0); }
+  15%      { transform: translate(1px, -1px); }
+  30%      { transform: translate(-1px, 0px); }
+  45%      { transform: translate(0px, 1px); }
+  60%      { transform: translate(1px, 0px); }
+  75%      { transform: translate(-1px, -1px); }
+  90%      { transform: translate(0px, 0px); }
+}
+
+/* ── Layer 7: Props (gentle float) ── */
+.layer-props {
+  animation: propsFloat 5s ease-in-out infinite;
+}
+@keyframes propsFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
+}
+
+/* ── Soft edge blend mask ── */
+.hero-visual::before {
+  content: ''; position: absolute;
+  left: -2px; top: 0; bottom: 0; width: 80px;
+  background: linear-gradient(to right, var(--cream), transparent);
+  z-index: 4; pointer-events: none;
+}
+
+/* ── Scale illustration to fit ── */
+@media (max-height: 900px) {
+  .illustration-stage { transform: scale(0.85); transform-origin: right center; }
+}
+@media (max-height: 750px) {
+  .illustration-stage { transform: scale(0.7); transform-origin: right center; }
+}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 900px) {
+  .hero { flex-direction: column; min-height: auto; }
+  .hero::after { display: none; }
+  .hero-content { flex: auto; text-align: center; padding: 2rem 5%; }
+  .hero p { max-width: 100%; }
+  .hero-stats { justify-content: center; }
+  .hero-actions { justify-content: center; }
+  .hero-visual { height: auto; min-height: 400px; }
+  .illustration-stage { transform: scale(0.55); transform-origin: center center; }
+  .hero-visual::before { display: none; }
+  .nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Lingo<span>Camp</span></div>
+  <nav class="nav">
+    <a href="#">Courses</a>
+    <a href="#">Pricing</a>
+    <a href="#">About</a>
+    <a href="#">Blog</a>
+    <a href="#" class="btn btn-outline">Log In</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">★ <span>#1</span> English Learning Platform</div>
+    <h1>Speak English<br>Like a <em>Native</em></h1>
+    <p>Fun, immersive lessons that feel like play — not school. Join 50,000+ learners worldwide.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary">Start Free Trial</a>
+      <a href="#" class="btn btn-outline">▶ Watch Demo</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><strong>50K+</strong><small>Learners</small></div>
+      <div class="stat"><strong>4.9 ★</strong><small>Rating</small></div>
+      <div class="stat"><strong>200+</strong><small>Lessons</small></div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="illustration-stage">
+      <!-- Layer stacking order: back to front -->
+      <!-- Base: full foreground (static background) -->
+      <img class="layer layer-base" src="layers/00_foreground_full.png" alt="">
+
+      <!-- Speaker: behind the girl, subtle vibration -->
+      <img class="layer layer-speaker" src="layers/07_speaker.png" alt="">
+
+      <!-- Legs: bottom, swing -->
+      <img class="layer layer-legs" src="layers/06_legs.png" alt="">
+
+      <!-- Book: center, page flutter -->
+      <img class="layer layer-book" src="layers/05_book.png" alt="">
+
+      <!-- Skin upper: face + arms, subtle float -->
+      <img class="layer layer-face" src="layers/02_skin_upper.png" alt="">
+
+      <!-- Face features: eyes/nose/mouth on top of skin -->
+      <img class="layer layer-face" src="layers/03_face_features.png" alt="">
+
+      <!-- Headphones: on head, gentle bob -->
+      <img class="layer layer-headphones" src="layers/04_headphones.png" alt="">
+
+      <!-- Hair: top layer, breeze sway -->
+      <img class="layer layer-hair" src="layers/01_hair.png" alt="">
+
+      <!-- Props: scattered items, gentle float -->
+      <img class="layer layer-props" src="layers/08_props.png" alt="">
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
