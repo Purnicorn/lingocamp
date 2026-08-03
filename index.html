@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LingoCamp — Learn English the Fun Way</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAE2B4;
+  --cream-light: #FFF3E0;
+  --navy: #1A2533;
+  --navy-light: #2B3A55;
+  --brick: #CF6730;
+  --brick-hover: #B54E1A;
+  --orange: #D97B3F;
+  --olive: #7A8450;
+  --olive-dark: #5C6635;
+  --paper: #FFF8EE;
+  --ink: #1A1A1A;
+  --halftone: #E8D5B0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--navy);
+  background: var(--cream);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Noise texture overlay ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 5%;
+  background: var(--cream);
+  border-bottom: 3px solid var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.8rem;
+  color: var(--navy);
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--brick); }
+
+.nav { display: flex; gap: 2rem; align-items: center; }
+.nav a {
+  text-decoration: none;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+.nav a:hover { color: var(--brick); }
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.8rem;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  border: 3px solid var(--navy);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 var(--navy);
+  letter-spacing: 0.3px;
+}
+.btn-primary {
+  background: var(--brick);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--brick-hover);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--navy);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--navy);
+}
+.btn-outline:hover { background: rgba(0,0,0,0.04); }
+
+/* ═══════ HERO ═══════ */
+.hero {
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  min-height: 88vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Cream-to-illustration gradient bridge */
+.hero::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 60%;
+  background: linear-gradient(
+    to right,
+    var(--cream) 0%,
+    rgba(250,226,180,0.7) 10%,
+    rgba(250,226,180,0) 25%
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Halftone dot overlay on the gradient zone */
+.hero-grain {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 62%;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, rgba(250,226,180,0.6) 1px, transparent 1px);
+  background-size: 14px 14px;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.15) 5%, rgba(0,0,0,0.3) 15%, rgba(0,0,0,0) 30%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.15) 5%, rgba(0,0,0,0.3) 15%, rgba(0,0,0,0) 30%);
+}
+
+.hero-content {
+  flex: 0 0 42%;
+  padding: 3rem 5% 3rem 7%;
+  z-index: 10;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--navy);
+  color: white;
+  padding: 0.35rem 1.1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 2px solid var(--navy);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+}
+.hero-badge span { color: var(--orange); }
+
+.hero h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  line-height: 1.12;
+  color: var(--navy);
+  margin-bottom: 1.2rem;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--brick);
+  position: relative;
+}
+.hero h1 em::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: -6px; right: -6px;
+  height: 14px;
+  background: var(--orange);
+  opacity: 0.25;
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--navy-light);
+  margin-bottom: 2rem;
+  max-width: 400px;
+  font-weight: 600;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2.2rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px dashed var(--halftone);
+}
+.hero-stats .stat { text-align: center; }
+.hero-stats .stat strong {
+  display: block;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.6rem;
+  color: var(--brick);
+}
+.hero-stats .stat small {
+  font-weight: 700;
+  color: var(--navy-light);
+  font-size: 0.85rem;
+}
+
+/* Illustration zone */
+.hero-visual {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+.hero-visual img {
+  height: 90vh;
+  max-height: 700px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  object-position: right center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Soft blend mask on the image's left edge */
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  left: -2px; top: 0; bottom: 0;
+  width: 80px;
+  background: linear-gradient(to right, var(--cream), transparent);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ═══════ SECTION SHARED ═══════ */
+.divider {
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--navy) 0px, var(--navy) 8px,
+    transparent 8px, transparent 12px
+  );
+}
+
+.section {
+  padding: 5rem 5%;
+  text-align: center;
+}
+
+.section-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2.2rem;
+  color: var(--navy);
+  margin-bottom: 0.8rem;
+}
+.section-sub {
+  color: var(--navy-light);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  font-weight: 600;
+}
+
+/* ═══════ FEATURES ═══════ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.8rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: var(--paper);
+  border: 3px solid var(--navy);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: left;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 6px 6px 0 var(--navy);
+}
+.feature-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--navy);
+}
+
+.feature-card .icon {
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border: 2px solid var(--navy);
+}
+.feature-card:nth-child(1) .icon { background: #FFE8D6; }
+.feature-card:nth-child(2) .icon { background: #D6E8FF; }
+.feature-card:nth-child(3) .icon { background: #E8FFD6; }
+.feature-card:nth-child(4) .icon { background: #FFD6E8; }
+
+.feature-card h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2rem;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+}
+.feature-card p {
+  color: var(--navy-light);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ═══════ COURSES ═══════ */
+.courses-bg { background: var(--paper); }
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.8rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.course-card {
+  background: white;
+  border: 3px solid var(--navy);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: left;
+  box-shadow: 6px 6px 0 var(--navy);
+  transition: transform 0.2s;
+}
+.course-card:hover { transform: translate(-2px, -2px); }
+
+.course-header {
+  padding: 1.5rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.course-header.beginner  { background: var(--olive); }
+.course-header.intermediate { background: var(--navy); }
+.course-header.advanced { background: var(--brick); }
+
+.course-header h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3rem;
+}
+.course-level {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.2);
+  padding: 0.2rem 0.7rem;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+
+.course-body { padding: 1.5rem; }
+.course-body ul { list-style: none; margin-bottom: 1.5rem; }
+.course-body li {
+  padding: 0.35rem 0;
+  font-weight: 600;
+  color: var(--navy-light);
+  font-size: 0.95rem;
+}
+.course-body li::before {
+  content: '★ ';
+  color: var(--brick);
+  font-size: 0.7rem;
+}
+
+.course-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.course-price strong {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  color: var(--navy);
+}
+.course-price strong small {
+  font-size: 0.85rem;
+  color: var(--navy-light);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+}
+
+/* ═══════ TESTIMONIALS ═══════ */
+.testimonial-grid {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.testimonial-card {
+  background: var(--cream);
+  border: 3px solid var(--navy);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: left;
+  flex: 0 0 320px;
+  box-shadow: 4px 4px 0 var(--navy);
+}
+.testimonial-card .stars { color: var(--orange); font-size: 1.1rem; margin-bottom: 0.5rem; }
+.testimonial-card > p { font-weight: 600; color: var(--navy); margin-bottom: 0.8rem; }
+.testimonial-card .author {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.testimonial-card .avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  background: var(--orange);
+  color: white;
+}
+.testimonial-card .author strong { font-size: 0.95rem; }
+.testimonial-card .author small { display: block; color: var(--navy-light); font-size: 0.8rem; }
+
+/* ═══════ CTA BANNER ═══════ */
+.cta-banner {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+  padding: 4.5rem 5%;
+  position: relative;
+  overflow: hidden;
+}
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, var(--brick) 0%, transparent 60%),
+              radial-gradient(circle at 80% 50%, var(--olive) 0%, transparent 60%);
+  opacity: 0.3;
+}
+.cta-banner h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2.2rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+.cta-banner p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  position: relative;
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+.cta-banner .btn { position: relative; }
+
+/* ═══════ FOOTER ═══════ */
+.footer-grid {
+  background: var(--cream);
+  border-top: 3px solid var(--navy);
+  padding: 3rem 5%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.footer-grid h4 {
+  font-family: 'Fredoka One', cursive;
+  color: var(--navy);
+  margin-bottom: 1rem;
+}
+.footer-grid a, .footer-grid p {
+  display: block;
+  color: var(--navy-light);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+.footer-grid a:hover { color: var(--brick); }
+.footer-bottom {
+  border-top: 2px dashed var(--halftone);
+  padding: 1.5rem 5%;
+  text-align: center;
+  font-weight: 700;
+  color: var(--navy-light);
+  font-size: 0.85rem;
+  background: var(--cream);
+}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 900px) {
+  .hero { flex-direction: column; min-height: auto; }
+  .hero::after { display: none; }
+  .hero-grain { display: none; }
+  .hero-content { flex: auto; text-align: center; padding: 2rem 5%; }
+  .hero p { max-width: 100%; }
+  .hero-stats { justify-content: center; }
+  .hero-actions { justify-content: center; }
+  .hero-visual img { height: auto; width: 100%; max-height: 450px; }
+  .hero-visual::before { display: none; }
+  .nav { display: none; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════ ANIMATIONS ═══════ */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.feature-card .icon { animation: float 3s ease-in-out infinite; }
+.feature-card:nth-child(2) .icon { animation-delay: 0.5s; }
+.feature-card:nth-child(3) .icon { animation-delay: 1s; }
+.feature-card:nth-child(4) .icon { animation-delay: 1.5s; }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="logo">Lingo<span>Camp</span></div>
+  <nav class="nav">
+    <a href="#">Courses</a>
+    <a href="#">Pricing</a>
+    <a href="#">About</a>
+    <a href="#">Blog</a>
+    <a href="#" class="btn btn-outline">Log In</a>
+  </nav>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <!-- Halftone bridge dots between text and illustration -->
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">★ <span>#1</span> English Learning Platform</div>
+    <h1>Speak English<br>Like a <em>Native</em></h1>
+    <p>Fun, immersive lessons that feel like play — not school. Join 50,000+ learners worldwide.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary">Start Free Trial</a>
+      <a href="#" class="btn btn-outline">▶ Watch Demo</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><strong>50K+</strong><small>Learners</small></div>
+      <div class="stat"><strong>4.9 ★</strong><small>Rating</small></div>
+      <div class="stat"><strong>200+</strong><small>Lessons</small></div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <img src="hero-illustration.webp" alt="Girl learning English">
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="section">
+  <h2 class="section-title">Why LingoCamp?</h2>
+  <p class="section-sub">Learning English should be an adventure, not a chore.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🎧</div>
+      <h3>Immersive Audio</h3>
+      <p>Native-speaker dialogues with retro mixtape vibes — train your ear the fun way.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🎮</div>
+      <h3>Game-Based Lessons</h3>
+      <p>Level up your grammar through quests and challenges. No boring drills.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📖</div>
+      <h3>Story-Driven Curriculum</h3>
+      <p>Follow characters through comic-book adventures while you learn real English.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">👥</div>
+      <h3>Live Speaking Club</h3>
+      <p>Practice with real people in small groups. Gain confidence without pressure.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COURSES ═══ -->
+<section class="section courses-bg">
+  <h2 class="section-title">Pick Your Path</h2>
+  <p class="section-sub">From zero to fluent — start where you are.</p>
+
+  <div class="courses-grid">
+    <div class="course-card">
+      <div class="course-header beginner">
+        <h3>Camp Starter</h3>
+        <span class="course-level">A1–A2</span>
+      </div>
+      <div class="course-body">
+        <ul>
+          <li>Basic vocabulary & everyday phrases</li>
+          <li>Interactive pronunciation guide</li>
+          <li>30 comic-style story lessons</li>
+          <li>Weekly group practice sessions</li>
+        </ul>
+        <div class="course-price">
+          <strong>Free <small>/ forever</small></strong>
+          <a href="#" class="btn btn-outline">Join Now</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-header intermediate">
+        <h3>Camp Explorer</h3>
+        <span class="course-level">B1–B2</span>
+      </div>
+      <div class="course-body">
+        <ul>
+          <li>Real-world conversation scenarios</li>
+          <li>Grammar through storytelling</li>
+          <li>60+ immersive audio episodes</li>
+          <li>Monthly 1-on-1 coaching call</li>
+        </ul>
+        <div class="course-price">
+          <strong>$12 <small>/ mo</small></strong>
+          <a href="#" class="btn btn-primary">Start Trial</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-header advanced">
+        <h3>Camp Master</h3>
+        <span class="course-level">C1–C2</span>
+      </div>
+      <div class="course-body">
+        <ul>
+          <li>Advanced idioms & cultural nuance</li>
+          <li>Debate & presentation training</li>
+          <li>Unlimited speaking club access</li>
+          <li>Personal fluency coach</li>
+        </ul>
+        <div class="course-price">
+          <strong>$25 <small>/ mo</small></strong>
+          <a href="#" class="btn btn-primary">Start Trial</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="section">
+  <h2 class="section-title">What Learners Say</h2>
+  <p class="section-sub">Real stories from our community.</p>
+
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"Finally an app that doesn't feel like homework. The comic-book lessons are genius!"</p>
+      <div class="author">
+        <div class="avatar" style="background:#D97B3F">M</div>
+        <div><strong>Maria</strong><small>Brazil · Camp Explorer</small></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"Went from scared to speak to having hour-long conversations. The club changed everything."</p>
+      <div class="author">
+        <div class="avatar" style="background:#7A8450">J</div>
+        <div><strong>Jun</strong><small>Japan · Camp Master</small></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"My kids actually ask to do their English lessons now. The game approach is pure magic."</p>
+      <div class="author">
+        <div class="avatar" style="background:#CF6730">S</div>
+        <div><strong>Sarah</strong><small>USA · Parent</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-banner">
+  <h2>Ready to Start Your Adventure?</h2>
+  <p>Join 50,000+ learners and discover how fun English can be.</p>
+  <a href="#" class="btn btn-primary" style="font-size:1.2rem;padding:1rem 3rem;">Get Started Free →</a>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4>Lingo<span style="color:var(--brick)">Camp</span></h4>
+      <p>Making English learning an adventure since 2024. Built with love for language learners everywhere.</p>
+    </div>
+    <div>
+      <h4>Courses</h4>
+      <a href="#">Camp Starter</a>
+      <a href="#">Camp Explorer</a>
+      <a href="#">Camp Master</a>
+      <a href="#">For Kids</a>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">Careers</a>
+      <a href="#">Blog</a>
+      <a href="#">Contact</a>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <a href="#">Help Center</a>
+      <a href="#">Community</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 LingoCamp. All rights reserved. Made with ★ and retro vibes.
+  </div>
+</footer>
+
+</body>
+</html>

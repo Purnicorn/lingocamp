@@ -1,0 +1,13 @@
+# Temp/debug images
+*_check*.png
+*_strip*.png
+watermark_*.png
+
+# Design tools
+*.psd
+*.xd
+*.fig
+
+# OS
+.DS_Store
+Thumbs.db
