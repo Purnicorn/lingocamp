@@ -580,41 +580,7 @@ body::after {
   </div>
 
   <div class="hero-visual">
-    <video id="heroVideo" src="hero-video.mp4" autoplay muted playsinline style="transition: opacity 0.25s"></video>
-<script>
-(function() {
-  const video = document.getElementById('heroVideo');
-  let fading = false;
-
-  video.addEventListener('timeupdate', () => {
-    if (!video.duration) return;
-    const remaining = video.duration - video.currentTime;
-    if (remaining < 0.35 && !fading) {
-      fading = true;
-      video.style.opacity = '0';
-    }
-    if (video.currentTime < 0.15 && fading) {
-      fading = false;
-      video.style.opacity = '1';
-    }
-  });
-
-  video.addEventListener('ended', () => {
-    video.currentTime = 0;
-    video.play();
-    fading = false;
-    video.style.opacity = '1';
-  });
-
-  // Fallback: reset state on seek/play
-  video.addEventListener('seeking', () => {
-    if (video.currentTime < 0.1) {
-      fading = false;
-      video.style.opacity = '1';
-    }
-  });
-})();
-</script>
+    <video src="hero-video.mp4" autoplay loop muted playsinline></video>
   </div>
 </section>
 
