@@ -63,7 +63,7 @@ body::after {
 .hero {
   background: var(--cream);
   display: flex; align-items: center;
-  min-height: 88vh; position: relative; overflow: hidden;
+  min-height: 88vh; position: relative; overflow: visible;
 }
 
 .hero::after {
@@ -112,9 +112,14 @@ body::after {
 
 .illustration-stage {
   position: relative;
-  width: 1100px; height: 880px;
-  /* Scale down to fit viewport */
-  transform-origin: right center;
+  width: 100%;
+  max-width: 1100px;
+  aspect-ratio: 1100 / 880;
+}
+.illustration-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* All layers stacked with absolute positioning */
@@ -122,6 +127,7 @@ body::after {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
+  object-fit: fill;
   pointer-events: none;
   will-change: transform;
 }
@@ -227,14 +233,6 @@ body::after {
   z-index: 4; pointer-events: none;
 }
 
-/* ── Scale illustration to fit ── */
-@media (max-height: 900px) {
-  .illustration-stage { transform: scale(0.85); transform-origin: right center; }
-}
-@media (max-height: 750px) {
-  .illustration-stage { transform: scale(0.7); transform-origin: right center; }
-}
-
 /* ═══════ RESPONSIVE ═══════ */
 @media (max-width: 900px) {
   .hero { flex-direction: column; min-height: auto; }
@@ -243,8 +241,8 @@ body::after {
   .hero p { max-width: 100%; }
   .hero-stats { justify-content: center; }
   .hero-actions { justify-content: center; }
-  .hero-visual { height: auto; min-height: 400px; }
-  .illustration-stage { transform: scale(0.55); transform-origin: center center; }
+  .hero-visual { height: auto; min-height: 300px; width: 100%; }
+  .illustration-stage { max-width: 100%; }
   .hero-visual::before { display: none; }
   .nav { display: none; }
 }
