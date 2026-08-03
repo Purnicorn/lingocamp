@@ -136,16 +136,19 @@ body::after {
 /* We use the full foreground minus what's covered by animated layers */
 /* For now, use foreground_full as base, animated layers overlay on top */
 
-/* ── Layer 1: Hair (sway like gentle breeze) ── */
+/* ── Layer: Hair (breeze sway, multi-segment wave) ── */
 .layer-hair {
-  transform-origin: 50% 20%; /* pivot near top of head */
-  animation: hairSway 4s ease-in-out infinite;
+  transform-origin: 50% 15%;
+  animation: hairSway 6s ease-in-out infinite;
 }
 @keyframes hairSway {
-  0%, 100% { transform: rotate(0deg) skewX(0deg); }
-  25%      { transform: rotate(0.8deg) skewX(1.5deg); }
-  50%      { transform: rotate(-0.3deg) skewX(-1deg); }
-  75%      { transform: rotate(0.5deg) skewX(2deg); }
+  0%, 100% { transform: rotate(0deg) skewX(0deg) translateX(0); }
+  15%      { transform: rotate(0.3deg) skewX(1deg) translateX(2px); }
+  30%      { transform: rotate(0.8deg) skewX(2.5deg) translateX(4px); }
+  45%      { transform: rotate(0.2deg) skewX(0.5deg) translateX(1px); }
+  60%      { transform: rotate(-0.6deg) skewX(-2deg) translateX(-3px); }
+  75%      { transform: rotate(-1deg) skewX(-3deg) translateX(-5px); }
+  90%      { transform: rotate(-0.3deg) skewX(-0.8deg) translateX(-1px); }
 }
 
 /* ── Layer 2: Arms (subtle motion) ── */
@@ -190,15 +193,18 @@ body::after {
   80%      { transform: scaleX(1.02) rotate(-1deg); }
 }
 
-/* ── Layer 5: Legs (idle swing, like lying on floor) ── */
+/* ── Layer: Legs (natural pendulum swing, hip pivot) ── */
 .layer-legs {
-  transform-origin: 50% 0%; /* pivot at hip/top of legs */
-  animation: legSwing 4.5s ease-in-out infinite;
+  transform-origin: 50% 5%;
+  animation: legSwing 3.8s ease-in-out infinite;
 }
 @keyframes legSwing {
   0%, 100% { transform: rotate(0deg); }
-  25%      { transform: rotate(2.5deg); }
-  75%      { transform: rotate(-2deg); }
+  10%      { transform: rotate(1deg); }
+  30%      { transform: rotate(3deg); }
+  50%      { transform: rotate(1deg); }
+  70%      { transform: rotate(-2.5deg); }
+  90%      { transform: rotate(-0.5deg); }
 }
 
 /* ── Layer 6: Speaker/boombox (subtle vibration) ── */
@@ -280,8 +286,8 @@ body::after {
   <div class="hero-visual">
     <div class="illustration-stage">
       <!-- ═══ SAM point-prompted layers ═══ -->
-      <!-- Base: full illustration (static) -->
-      <img class="layer layer-base" src="hero-illustration.webp" alt="">
+      <!-- Base: illustration with animated parts erased -->
+      <img class="layer layer-base" src="layers/base_erased.webp" alt="">
 
       <!-- Back: speaker (vibrates behind girl) -->
       <img class="layer layer-speaker" src="layers/sam_points/07_speaker.png" alt="">
